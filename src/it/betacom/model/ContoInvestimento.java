@@ -5,18 +5,19 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import java.util.Random;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 public class ContoInvestimento extends Conto {
 
 	private static final double TASSO_MIN = -1.0;
 	private static final double TASSO_MAX = 1.0;
 	private Random random = new Random();
+	private static final Logger logger = LogManager.getLogger(ContoInvestimento.class);
 
 	public ContoInvestimento(String titolare) {
 		super(titolare);
@@ -25,7 +26,7 @@ public class ContoInvestimento extends Conto {
 
 	   
 		public void generaInteressi(LocalDate fineAnno) {
-		    DecimalFormat formato = new DecimalFormat("#.##");
+		    
 		    Collections.sort(operazioni, Comparator.comparing(Operazione::getData));
 		    double interesseAnnuo = (random.nextDouble() * (TASSO_MAX - TASSO_MIN) + TASSO_MIN);
 
@@ -42,6 +43,9 @@ public class ContoInvestimento extends Conto {
 
 		            long giorni = ChronoUnit.DAYS.between(dataOperazioneCorrente, dataOperazioneSuccessiva);
 		            interessi += operazioneCorrente.getSaldoParziale() * (interesseAnnuo / 365.0) * giorni;
+		            
+		        	logger.warn("interessi = saldo parziale * ( tasso interesse annuale / 365 ) * giorni del periodo");
+					logger.warn(interessi + " = " +  operazioneCorrente.getSaldoParziale() + " * (" + interesseAnnuo + " / 365) * "+ giorni );
 		        }
 		    } else {
 		        // Se non ci sono operazioni, calcola gli interessi sull'intero periodo.
@@ -76,14 +80,13 @@ public class ContoInvestimento extends Conto {
 				System.out.println("       " + formatoData.format(dataOperazione) + "       ||       "
 						+ operazione.getTipo() + "     ||     " + formato.format(operazione.getImporto()) + "    ||    "
 						+ formato.format(operazione.getSaldoParziale()));
+				
+				
 			}
 		}
 
 		System.out.println("-----------------------------------------------");
 
-		// Calcola interessi e stampa saldo finale dopo il loop
-		// double saldoIniziale = annoApertura == LocalDate.now().getYear() ? getSaldo()
-		// : 1000;
 		double tassazione = 0.26;
 		double interessiNetti = interessiLordi - (interessiLordi * tassazione);
 		
@@ -99,30 +102,6 @@ public class ContoInvestimento extends Conto {
 
 
 	
-	@Override
-	public void simulaOperazioniCasuali() {
-		int numeroOperazioni = 3;
-		List<Operazione> operazioniSimulate = new ArrayList<>();
 
-		for (int i = 0; i < numeroOperazioni; i++) {
-			double importo = Math.random() * 500;
-			LocalDate dataCasuale = generaDataCasuale2021(getDataApertura(), operazioniSimulate);
-			boolean isVersamento = Math.random() > 0.5;
-
-			if (isVersamento) {
-				versa(importo, dataCasuale);
-			} else {
-				preleva(importo, dataCasuale);
-			}
-
-			Operazione operazione = new Operazione((isVersamento ? "Versamento" : "Prelievo"), importo, dataCasuale,
-					saldo);
-			operazioniSimulate.add(operazione);
-		}
-
-		// Ordina le operazioni per data
-		Collections.sort(operazioniSimulate);
-		
-	}
 
 }

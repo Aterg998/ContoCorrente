@@ -24,6 +24,7 @@ public class ContoMain {
 		cd.generaInteressi(fineAnno);
 		ci.generaInteressi(fineAnno);
 
+		
 	}
 
 }

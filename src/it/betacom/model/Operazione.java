@@ -5,14 +5,15 @@ import java.time.LocalDate;
 public class Operazione implements Comparable<Operazione>{
 
 	private String tipo;
-    private double importo, saldoParziale;
+    private double importo, saldoParziale, saldoIniziale;
     private LocalDate data;
 
-    public Operazione(String tipo, double importo, LocalDate dataCasuale, double saldoParziale) {
+    public Operazione(String tipo, double importo, LocalDate dataCasuale, double saldoParziale, double saldoIniziale) {
         this.tipo = tipo;
         this.importo = importo;
         this.data = dataCasuale;
         this.saldoParziale = saldoParziale;
+        this.saldoIniziale = saldoIniziale;
     }
 
     @Override
@@ -50,6 +51,10 @@ public class Operazione implements Comparable<Operazione>{
 
 	public void setSaldoParziale(double saldoParziale) {
 		this.saldoParziale = saldoParziale;
+	}
+
+	public double getSaldoIniziale() {
+		return saldoIniziale;
 	}
 
 	

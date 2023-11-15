@@ -2,5 +2,8 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="C:/Drivers/itextpdf-5.5.13.3.jar"/>
+	<classpathentry kind="lib" path="C:/Drivers/log4j-core-2.21.1.jar"/>
+	<classpathentry kind="lib" path="C:/Drivers/log4j-api-2.21.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
